@@ -1,0 +1,83 @@
+Microsoft (R) Macro Assembler Version 6.14.8444		    04/24/17 21:28:08
+TwoModul.asm						     Page 1 - 1
+
+
+				;include ..\include\console.inc
+				.486
+				.model flat,stdcall
+				option casemap:none
+
+ 00000000			.data
+				    public xasm2
+ 00000000 00087A23		xasm2 dd 555555
+				    extrn xp1:dword; xp1 ?p1.pas
+
+ 00000000			.code
+				    extern OutHex:near; OutHex ?p1.pas
+				    public Q
+ 00000000			Q   proc; uses eax ebx,x:dword,y:dword
+ 00000000  55			    push ebp
+ 00000001  8B EC		    mov  ebp,esp
+ 00000003  50			    push eax
+ 00000004  53			    push ebx
+ = dword ptr [ebp+8]		x   equ  dword ptr [ebp+8]
+ = dword ptr [ebp+12]		y   equ  dword ptr [ebp+12]
+ 00000005  A1 00000000 E	    mov  eax,xp1; xp1 ?p1.pas
+ 0000000A  8B 45 0C		    mov  eax,y
+ 0000000D  03 C0		    add  eax,eax
+ 0000000F  8B 5D 08		    mov  ebx,x
+ 00000012  89 03		    mov  [ebx],eax
+ 00000014  FF 75 0C		    push dword ptr [ebp+12]
+ 00000017  E8 00000000 E	    call OutHex
+ 0000001C  FF 35 00000000 E	    push xp1
+ 00000022  E8 00000000 E	    call OutHex
+ 00000027  5B			    pop  ebx
+ 00000028  58			    pop  eax
+ 00000029  5D			    pop  ebp
+ 0000002A  C2 0008		    ret  8
+ 0000002D			Q   endp
+
+				    end
+Microsoft (R) Macro Assembler Version 6.14.8444		    04/24/17 21:28:08
+TwoModul.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+FLAT . . . . . . . . . . . . . .	GROUP
+_DATA  . . . . . . . . . . . . .	32 Bit	 00000004 Para	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 0000002D Para	  Public  'CODE'	
+
+
+Procedures,  parameters and locals:
+
+                N a m e                 Type     Value    Attr
+
+Q  . . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 0000002D Public STDCALL
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 00000000h   
+@DataSize  . . . . . . . . . . .	Number	 00000000h   
+@Interface . . . . . . . . . . .	Number	 00000003h   
+@Model . . . . . . . . . . . . .	Number	 00000007h   
+@code  . . . . . . . . . . . . .	Text   	 _TEXT
+@data  . . . . . . . . . . . . .	Text   	 FLAT
+@fardata?  . . . . . . . . . . .	Text   	 FLAT
+@fardata . . . . . . . . . . . .	Text   	 FLAT
+@stack . . . . . . . . . . . . .	Text   	 FLAT
+OutHex . . . . . . . . . . . . .	L Near	 00000000 FLAT	External STDCALL
+xasm2  . . . . . . . . . . . . .	DWord	 00000000 _DATA	Public STDCALL
+xp1  . . . . . . . . . . . . . .	DWord	 00000000 FLAT	External STDCALL
+x  . . . . . . . . . . . . . . .	Text   	 dword ptr [ebp+8]
+y  . . . . . . . . . . . . . . .	Text   	 dword ptr [ebp+12]
+
+	   0 Warnings
+	   0 Errors

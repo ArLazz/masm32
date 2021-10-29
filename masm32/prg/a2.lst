@@ -1,0 +1,104 @@
+Microsoft (R) Macro Assembler Version 6.14.8444		    04/24/17 02:02:23
+a2.asm							     Page 1 - 1
+
+
+				;include ..\include\console.inc
+				.486
+				.model flat,stdcall
+				option casemap:none
+
+				    public NN
+ = 00000064			NN  equ    100
+
+ 00000000			.data
+				    public xa2
+ 00000000 00087A23		xa2 dd 555555
+				    extrn za1:dword; za1 из a1.asm
+
+ 00000000			.code
+				    public Q
+ 00000000			Q   proc uses eax ebx, x:dword,y:dword
+				    local z:dword 
+				; автоматически вставляются команды:
+				;    push ebp
+				;    mov  ebp,esp
+				;    sub  esp,4; local z:dword = [ebp-4]
+				;    push eax
+				;    push ebx
+				; действуют неявные директивы:
+				;z   equ  dword ptr [ebp-4]
+				;x   equ  dword ptr [ebp+8]
+				;y   equ  dword ptr [ebp+12]
+ 00000008  A1 00000000 E	    mov  eax,za1; za1 из a1.asm
+ 0000000D  8B 45 0C		    mov  eax,y
+ 00000010  03 C0		    add  eax,eax
+ 00000012  8B 5D 08		    mov  ebx,x
+ 00000015  89 03		    mov  [ebx],eax
+ 00000017  40			    inc  eax
+
+				; перед ret автоматически вставляются команды:
+
+				;    pop  ebx; 5B
+				;    pop  eax; 58
+				;    mov  esp,ebp; 8B E5  уничтожение local z:dword
+				;    pop  ebp; 5D
+				;    ret  8;   C2 00 08
+
+				    ret;  8
+ 0000001E			Q   endp
+
+				    public QQ@8
+ 0000001E			QQ@8  proc; eax:=-111
+ 0000001E  55			    push ebp
+ 0000001F  8B EC		    mov  ebp,esp
+ 00000021  B8 FFFFFF91		    mov  eax,-111
+ 00000026  5D			    pop  ebp
+ 00000027  C3			    ret
+ 00000028			QQ@8  endp
+
+				    end
+Microsoft (R) Macro Assembler Version 6.14.8444		    04/24/17 02:02:23
+a2.asm							     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+FLAT . . . . . . . . . . . . . .	GROUP
+_DATA  . . . . . . . . . . . . .	32 Bit	 00000004 Para	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 00000028 Para	  Public  'CODE'	
+
+
+Procedures,  parameters and locals:
+
+                N a m e                 Type     Value    Attr
+
+QQ@8 . . . . . . . . . . . . . .	P Near	 0000001E _TEXT	Length= 0000000A Public STDCALL
+Q  . . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 0000001E Public STDCALL
+  x  . . . . . . . . . . . . . .	DWord	 bp + 00000008
+  y  . . . . . . . . . . . . . .	DWord	 bp + 0000000C
+  z  . . . . . . . . . . . . . .	DWord	 bp - 00000004
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 00000000h   
+@DataSize  . . . . . . . . . . .	Number	 00000000h   
+@Interface . . . . . . . . . . .	Number	 00000003h   
+@Model . . . . . . . . . . . . .	Number	 00000007h   
+@code  . . . . . . . . . . . . .	Text   	 _TEXT
+@data  . . . . . . . . . . . . .	Text   	 FLAT
+@fardata?  . . . . . . . . . . .	Text   	 FLAT
+@fardata . . . . . . . . . . . .	Text   	 FLAT
+@stack . . . . . . . . . . . . .	Text   	 FLAT
+NN . . . . . . . . . . . . . . .	Number	 00000064h   Public
+xa2  . . . . . . . . . . . . . .	DWord	 00000000 _DATA	Public STDCALL
+za1  . . . . . . . . . . . . . .	DWord	 00000000 FLAT	External STDCALL
+
+	   0 Warnings
+	   0 Errors
